@@ -16,10 +16,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-@Deprecated  // add new
+// @Deprecated  // add new
 
 public class MainActivity extends AppCompatActivity {
 
@@ -58,6 +59,10 @@ public class MainActivity extends AppCompatActivity {
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
         }
 
-
+        textStatus = (TextView) findViewById(R.id.text_status);
+        btnParied = (Button) findViewById(R.id.btn_paired);
+        btnSearch = (Button) findViewById(R.id.btn_search);
+        btnSend = (Button) findViewById(R.id.btn_send);
+        listView = (ListView) findViewById(R.id.listview);
     }
 }
