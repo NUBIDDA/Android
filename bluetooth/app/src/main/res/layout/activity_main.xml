@@ -75,4 +75,20 @@
         app:layout_constraintStart_toEndOf="@+id/btnSendData"
         app:layout_constraintTop_toTopOf="@+id/btnSendData" />
 
+    <TextView
+        android:id="@+id/temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="temp"
+        app:layout_constraintStart_toStartOf="@+id/tvSendData"
+        app:layout_constraintTop_toBottomOf="@+id/tvSendData" />
+    <TextView
+        android:id="@+id/humid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="humid"
+        app:layout_constraintStart_toStartOf="@+id/temp"
+        app:layout_constraintTop_toBottomOf="@+id/temp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

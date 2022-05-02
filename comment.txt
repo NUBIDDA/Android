@@ -1,0 +1,9 @@
+1. activity_main.xml의 40번째 줄,
+android:background="@drawable/button1" 색상 안바뀌는 거 확인
+
+2. MainActivity.java에서 온도, 먼지, 자외선등이 특정 임계값을 넘으면 텍스트 색상이 바뀌는 이벤트 처리해보기.
+
+3. Scroller 적용하기
+
+4. 안드로이드에서 아두이노로 데이터 전송했을 때 자동/수동 모드 설정하기
+

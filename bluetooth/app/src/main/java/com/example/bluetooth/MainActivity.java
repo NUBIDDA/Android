@@ -44,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
     BluetoothDevice mBluetoothDevice;
     BluetoothSocket mBluetoothSocket;
 
+    TextView temp;
+    TextView humid;
+
     final static int BT_REQUEST_ENABLE = 1;
     final static int BT_MESSAGE_READ = 2;
     final static int BT_CONNECTING_STATUS = 3;
@@ -63,6 +66,10 @@ public class MainActivity extends AppCompatActivity {
         mBtnSendData = (Button)findViewById(R.id.btnSendData);
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
+        // add new (05.02)
+        temp =  (TextView)findViewById(R.id.temp);
+        humid = (TextView)findViewById(R.id.humid);
 
         mBtnBluetoothOn.setOnClickListener(new Button.OnClickListener() {
             @Override
@@ -100,7 +107,11 @@ public class MainActivity extends AppCompatActivity {
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
+                    // ","로 분할.
+                    String[] array = readMessage.split(",");
                     mTvReceiveData.setText(readMessage);
+                    temp.setText(array[0].concat(" C"));
+                    humid.setText(array[1].concat(" %"));
                 }
             }
         };
@@ -231,7 +242,12 @@ public class MainActivity extends AppCompatActivity {
                         SystemClock.sleep(100);
                         bytes = mmInStream.available();
                         bytes = mmInStream.read(buffer, 0, bytes);
+                        for(int i = 0; i < bytes; i++) {
+                            System.out.println("buffer[" + i + "]: " + buffer[i]);
+                        }
                         mBluetoothHandler.obtainMessage(BT_MESSAGE_READ, bytes, -1, buffer).sendToTarget();
+//                        temp.setText("temp is 30".concat("C"));
+//                        humid.setText("humid is 40!".concat("%"));
                     }
                 } catch (IOException e) {
                     break;
