@@ -1,94 +1,315 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent" >
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background"
+        tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/btnBluetoothOn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="30dp"
-        android:text="블루투스 ON"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <!--    스크롤 뷰 시작-->
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/notosanskr_light"
+            android:gravity="center_horizontal"
+            android:padding="20dp"
+            android:text="아이 케어 유모차"
+            tools:layout_editor_absoluteX="30dp"
+            tools:layout_editor_absoluteY="-3dp"
+            tools:ignore="MissingConstraints" />
 
-    <Button
-        android:id="@+id/btnBluetoothOff"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:text="블루투스 OFF"
-        app:layout_constraintStart_toEndOf="@+id/btnBluetoothOn"
-        app:layout_constraintTop_toTopOf="@+id/btnBluetoothOn" />
 
-    <TextView
-        android:id="@+id/tvBluetoothStatus"
-        android:layout_width="170dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="10dp"
-        android:text="status"
-        app:layout_constraintStart_toStartOf="@+id/btnBluetoothOn"
-        app:layout_constraintTop_toBottomOf="@+id/btnBluetoothOn" />
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:gravity="center_horizontal"
+            android:src="@drawable/logo"
+            app:layout_constraintBottom_toBottomOf="@+id/textView"
+            app:layout_constraintEnd_toEndOf="@+id/textView"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="@+id/textView"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.21"></ImageView>
 
-    <Button
-        android:id="@+id/btnConnect"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        android:text="연결하기"
-        app:layout_constraintStart_toStartOf="@+id/tvBluetoothStatus"
-        app:layout_constraintTop_toBottomOf="@+id/tvBluetoothStatus" />
+        <!--울음소리 측정 버튼-->
 
-    <TextView
-        android:id="@+id/tvReceiveData"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Receive"
-        app:layout_constraintStart_toStartOf="@+id/btnSendData"
-        app:layout_constraintTop_toBottomOf="@+id/btnSendData" />
+        <!--실시간 상태 영역-->
 
-    <Button
-        android:id="@+id/btnSendData"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="전송"
-        app:layout_constraintStart_toStartOf="@+id/btnConnect"
-        app:layout_constraintTop_toBottomOf="@+id/btnConnect" />
+        <!--    android:background="@drawable/button1" 계속 보라색으로 나타남.-->
+        <Button
+            android:id="@+id/btn1"
+            android:layout_width="379dp"
+            android:layout_height="95dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTintMode="screen"
+            android:drawableBottom="@drawable/baby"
+            android:background=""
+            android:outlineAmbientShadowColor="@color/white"
+            android:text="울음소리 측정하기"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:layout_constraintVertical_bias="0.001" />
 
-    <EditText
-        android:id="@+id/tvSendData"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Send Data"
-        app:layout_constraintStart_toEndOf="@+id/btnSendData"
-        app:layout_constraintTop_toTopOf="@+id/btnSendData" />
+        <View
+            android:id="@+id/view"
+            android:layout_width="430dp"
+            android:layout_height="270dp"
+            android:layout_marginTop="165dp"
+            android:background="@drawable/button1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.523"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imageView2"
+            app:layout_constraintVertical_bias="0.167"></View>
 
-    <TextView
-        android:id="@+id/temp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="temp"
-        app:layout_constraintStart_toStartOf="@+id/tvSendData"
-        app:layout_constraintTop_toBottomOf="@+id/tvSendData" />
-    <TextView
-        android:id="@+id/humid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="humid"
-        app:layout_constraintStart_toStartOf="@+id/temp"
-        app:layout_constraintTop_toBottomOf="@+id/temp" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!--    상태값 이미지-->
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="환경 및 아이 상태"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.142"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/view"
+            app:layout_constraintVertical_bias="0.06" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="배변 상태 : "
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@+id/view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.127"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/view"
+            app:layout_constraintVertical_bias="0.192" />
+
+
+
+        <!--    add new: 온도 / 먼지 / 자외선 매칭 시작-->
+        <RelativeLayout
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            app:layout_constraintBottom_toBottomOf="@+id/view"
+            app:layout_constraintEnd_toEndOf="@+id/view"
+            app:layout_constraintHorizontal_bias="0.033"
+            app:layout_constraintStart_toStartOf="@+id/view"
+            app:layout_constraintTop_toTopOf="@+id/view"
+            app:layout_constraintVertical_bias="0.678"
+            tools:ignore="MissingConstraints">
+            <ImageView
+                android:id="@+id/tempSensor"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:src="@drawable/sensor">
+            </ImageView>
+            <TextView
+                android:id="@+id/temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/tempSensor"
+                android:layout_alignLeft="@+id/tempSensor"
+                android:layout_alignRight="@+id/tempSensor"
+                android:layout_alignTop="@+id/tempSensor"
+                android:gravity="center"
+                android:text="temp"
+                android:textColor="@color/black"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            app:layout_constraintBottom_toBottomOf="@+id/view"
+            app:layout_constraintEnd_toEndOf="@+id/view"
+            app:layout_constraintHorizontal_bias="0.493"
+            app:layout_constraintStart_toStartOf="@+id/view"
+            app:layout_constraintTop_toTopOf="@+id/view"
+            app:layout_constraintVertical_bias="0.678"
+            tools:ignore="MissingConstraints">
+
+            <ImageView
+                android:id="@+id/dustSensor"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:src="@drawable/sensor"></ImageView>
+
+            <TextView
+                android:id="@+id/dust"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/dustSensor"
+                android:layout_alignTop="@+id/dustSensor"
+                android:layout_alignRight="@+id/dustSensor"
+                android:layout_alignBottom="@+id/dustSensor"
+                android:gravity="center"
+                android:text="dust"
+                android:textColor="@color/black" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            app:layout_constraintBottom_toBottomOf="@+id/view"
+            app:layout_constraintEnd_toEndOf="@+id/view"
+            app:layout_constraintHorizontal_bias="0.956"
+            app:layout_constraintStart_toStartOf="@+id/view"
+            app:layout_constraintTop_toTopOf="@+id/view"
+            app:layout_constraintVertical_bias="0.678"
+            tools:ignore="MissingConstraints">
+            <ImageView
+                android:id="@+id/uvSensor"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:src="@drawable/sensor">
+            </ImageView>
+            <TextView
+                android:id="@+id/uv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/uvSensor"
+                android:layout_alignLeft="@+id/uvSensor"
+                android:layout_alignRight="@+id/uvSensor"
+                android:layout_alignTop="@+id/uvSensor"
+                android:gravity="center"
+                android:text="uv"
+
+                android:textColor="@color/black"/>
+        </RelativeLayout>
+
+        <!--    센서 값 매칭 끝-->
+
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="온도"
+            app:layout_constraintBottom_toBottomOf="@+id/view"
+            app:layout_constraintEnd_toEndOf="@+id/view"
+            app:layout_constraintHorizontal_bias="0.15"
+            app:layout_constraintStart_toStartOf="@+id/view"
+            app:layout_constraintTop_toTopOf="@+id/view"
+            app:layout_constraintVertical_bias="0.896" />
+
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="먼지"
+            app:layout_constraintBottom_toBottomOf="@+id/view"
+            app:layout_constraintEnd_toEndOf="@+id/view"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="@+id/view"
+            app:layout_constraintTop_toTopOf="@+id/view"
+            app:layout_constraintVertical_bias="0.892" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="자외선"
+            app:layout_constraintBottom_toBottomOf="@+id/view"
+            app:layout_constraintEnd_toEndOf="@+id/view"
+            app:layout_constraintHorizontal_bias="0.851"
+            app:layout_constraintStart_toStartOf="@+id/view"
+            app:layout_constraintTop_toTopOf="@+id/view"
+            app:layout_constraintVertical_bias="0.896" />
+
+        <!--    블루투스 기능 시작-->
+
+        <Button
+            android:id="@+id/btnBluetoothOn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="468dp"
+            android:text="블루투스 ON"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <Button
+            android:id="@+id/btnBluetoothOff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="12dp"
+            android:text="블루투스 OFF"
+            app:layout_constraintStart_toEndOf="@+id/btnBluetoothOn"
+            app:layout_constraintTop_toTopOf="@+id/btnBluetoothOn" />
+
+        <Button
+            android:id="@+id/btnSendData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="전송"
+            app:layout_constraintStart_toStartOf="@+id/btnConnect"
+            app:layout_constraintTop_toBottomOf="@+id/btnConnect" />
+
+        <TextView
+            android:id="@+id/tvBluetoothStatus"
+            android:layout_width="170dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="12dp"
+            android:text="status"
+            app:layout_constraintStart_toStartOf="@+id/btnBluetoothOn"
+            app:layout_constraintTop_toBottomOf="@+id/btnBluetoothOn" />
+
+        <EditText
+            android:id="@+id/tvSendData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Send Data"
+            app:layout_constraintStart_toEndOf="@+id/btnSendData"
+            app:layout_constraintTop_toTopOf="@+id/btnSendData" />
+
+        <Button
+            android:id="@+id/btnConnect"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:text="연결하기"
+            app:layout_constraintStart_toStartOf="@+id/tvBluetoothStatus"
+            app:layout_constraintTop_toBottomOf="@+id/tvBluetoothStatus" />
+
+        <TextView
+            android:id="@+id/tvReceiveData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Receive"
+            app:layout_constraintStart_toStartOf="@+id/btnSendData"
+            app:layout_constraintTop_toBottomOf="@+id/btnSendData" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

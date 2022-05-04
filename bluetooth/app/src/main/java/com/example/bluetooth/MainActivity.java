@@ -45,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
     BluetoothSocket mBluetoothSocket;
 
     TextView temp;
-    TextView humid;
+    TextView dust;
+    TextView uv;
 
     final static int BT_REQUEST_ENABLE = 1;
     final static int BT_MESSAGE_READ = 2;
@@ -69,7 +70,8 @@ public class MainActivity extends AppCompatActivity {
 
         // add new (05.02)
         temp =  (TextView)findViewById(R.id.temp);
-        humid = (TextView)findViewById(R.id.humid);
+        dust = (TextView)findViewById(R.id.dust);
+        uv = (TextView)findViewById(R.id.uv);
 
         mBtnBluetoothOn.setOnClickListener(new Button.OnClickListener() {
             @Override
@@ -108,10 +110,16 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     // ","로 분할.
-                    String[] array = readMessage.split(",");
                     mTvReceiveData.setText(readMessage);
-                    temp.setText(array[0].concat(" C"));
-                    humid.setText(array[1].concat(" %"));
+//                    System.out.println("msg's type: " + readMessage.getClass().getName());
+//                    System.out.println("readMessage1: " + readMessage);
+                    String[] array = readMessage.split(",");
+                    System.out.println("temperature: " + array[0]);
+                    System.out.println("dust: " + array[1]);
+                    System.out.println("uv: " + array[2]);
+                    temp.setText(array[0].concat("°C"));
+                    dust.setText(array[1].concat("㎛"));
+                    uv.setText(array[2].concat("μω"));
                 }
             }
         };
@@ -226,7 +234,6 @@ public class MainActivity extends AppCompatActivity {
             } catch (IOException e) {
                 Toast.makeText(getApplicationContext(), "소켓 연결 중 오류가 발생했습니다.", Toast.LENGTH_LONG).show();
             }
-
             mmInStream = tmpIn;
             mmOutStream = tmpOut;
         }
@@ -242,12 +249,11 @@ public class MainActivity extends AppCompatActivity {
                         SystemClock.sleep(100);
                         bytes = mmInStream.available();
                         bytes = mmInStream.read(buffer, 0, bytes);
-                        for(int i = 0; i < bytes; i++) {
-                            System.out.println("buffer[" + i + "]: " + buffer[i]);
-                        }
+//                        for(int i = 0; i < bytes; i++) {
+//                            System.out.println("buffer[" + i + "]: " + buffer[i]);
+//                        }
+                        System.out.println(" type: " + buffer.getClass().getName());
                         mBluetoothHandler.obtainMessage(BT_MESSAGE_READ, bytes, -1, buffer).sendToTarget();
-//                        temp.setText("temp is 30".concat("C"));
-//                        humid.setText("humid is 40!".concat("%"));
                     }
                 } catch (IOException e) {
                     break;
