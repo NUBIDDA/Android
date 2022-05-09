@@ -3,6 +3,7 @@ package com.example.bluetooth;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -52,6 +53,7 @@ public class  MainActivity extends AppCompatActivity {
     Button mBtnFanOff;
 
     Button mBtnBabyCry;
+    Button mBtnNaverMap;
 
     BluetoothAdapter mBluetoothAdapter;
     Set<BluetoothDevice> mPairedDevices;
@@ -109,6 +111,7 @@ public class  MainActivity extends AppCompatActivity {
         mBtnFanOff = (Button) findViewById(R.id.btnFanOff);
 
         mBtnBabyCry = (Button) findViewById(R.id.btnBabyCry);
+        mBtnNaverMap = (Button) findViewById(R.id.btnNaverMap);
 
         // add new (05.02)
         temp =  (TextView)findViewById(R.id.temp);
@@ -151,6 +154,14 @@ public class  MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), BabyCryActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        mBtnNaverMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, NaverMapActivity.class);
                 startActivity(intent);
             }
         });
