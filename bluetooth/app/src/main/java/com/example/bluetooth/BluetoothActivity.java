@@ -26,14 +26,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-public class  MainActivity extends AppCompatActivity {
-
-//    Button mBtnBluetooth;
-
-    // false == CLOSE / true == OPEN
-    boolean fanState = false;
-    boolean coverState = false;
-
+public class BluetoothActivity extends AppCompatActivity {
     TextView mTvBluetoothStatus;
     TextView mTvReceiveData;
     TextView mTvSendData;
@@ -41,17 +34,6 @@ public class  MainActivity extends AppCompatActivity {
     Button mBtnBluetoothOff;
     Button mBtnConnect;
     Button mBtnSendData;
-
-    // Control manual/automatic button
-
-    Button mBtnManual;
-    Button mBtnAutomatic;
-    Button mBtnCoverOn;
-    Button mBtnCoverOff;
-    Button mBtnFanOn;
-    Button mBtnFanOff;
-
-    Button mBtnBabyCry;
 
     BluetoothAdapter mBluetoothAdapter;
     Set<BluetoothDevice> mPairedDevices;
@@ -61,16 +43,6 @@ public class  MainActivity extends AppCompatActivity {
     ConnectedBluetoothThread mThreadConnectedBluetooth;
     BluetoothDevice mBluetoothDevice;
     BluetoothSocket mBluetoothSocket;
-
-    TextView temp;
-    TextView dust;
-    TextView uv;
-
-
-    TextView mTvBowlMovement;  // 배변 활동 감지
-
-    String fanStr = "";
-    String coverStr = "";
 
     final static int BT_REQUEST_ENABLE = 1;
     final static int BT_MESSAGE_READ = 2;
@@ -82,15 +54,6 @@ public class  MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        mBtnBluetooth = (Button)findViewById(R.id.btnBluetooth);
-//        mBtnBluetooth.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getApplicationContext(), BluetoothActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-
         mTvBluetoothStatus = (TextView)findViewById(R.id.tvBluetoothStatus);
         mTvReceiveData = (TextView)findViewById(R.id.tvReceiveData);
         mTvSendData =  (EditText) findViewById(R.id.tvSendData);
@@ -100,22 +63,6 @@ public class  MainActivity extends AppCompatActivity {
         mBtnSendData = (Button)findViewById(R.id.btnSendData);
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
-        mBtnManual = (Button) findViewById(R.id.btnManual);
-        mBtnAutomatic = (Button) findViewById(R.id.btnAutomatic);
-        mBtnCoverOn = (Button) findViewById(R.id.btnCoverOn);
-        mBtnCoverOff = (Button) findViewById(R.id.btnCoverOff);
-        mBtnFanOn = (Button) findViewById(R.id.btnFanOn);
-        mBtnFanOff = (Button) findViewById(R.id.btnFanOff);
-
-        mBtnBabyCry = (Button) findViewById(R.id.btnBabyCry);
-
-        // add new (05.02)
-        temp =  (TextView)findViewById(R.id.temp);
-        dust = (TextView)findViewById(R.id.dust);
-        uv = (TextView)findViewById(R.id.uv);
-
-        mTvBowlMovement = (TextView)findViewById(R.id.tvBowelMovement);
 
         mBtnBluetoothOn.setOnClickListener(new Button.OnClickListener() {
             @Override
@@ -135,7 +82,6 @@ public class  MainActivity extends AppCompatActivity {
                 listPairedDevices();
             }
         });
-
         mBtnSendData.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -145,124 +91,6 @@ public class  MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-        mBtnBabyCry.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), BabyCryActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        //Button.OnclickListener 로 변경?
-        mBtnCoverOn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(mThreadConnectedBluetooth != null) {
-                    // 현재 선풍기 On/Off 여부에 따른 전송 문자열 변환
-                    if(fanState == false) {
-                        fanStr = "pc";
-                    } else {
-                        fanStr = "po";
-                    }
-                    coverState = true;
-                    coverStr = "po";
-                    mThreadConnectedBluetooth.write(coverStr+fanStr+"e");
-                    // On일 경우 Off 버튼의 글자를 지움.
-                    mBtnCoverOff.setText("");
-                    mBtnCoverOn.setText("On..");
-                }
-            }
-        });
-
-        mBtnCoverOff.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(mThreadConnectedBluetooth != null) {
-                    if(fanState == false) {
-                        fanStr = "pc";
-                    } else {
-                        fanStr = "po";
-                    }
-                    coverState = false;
-                    coverStr = "pc";
-                    mThreadConnectedBluetooth.write(coverStr+fanStr+"e");
-                    mBtnCoverOff.setText("Off..");
-                    mBtnCoverOn.setText("");
-                }
-            }
-        });
-
-        mBtnFanOn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(mThreadConnectedBluetooth != null) {
-                    if(coverState == false) {
-                        coverStr = "pc";
-                    } else {
-                        coverStr = "po";
-                    }
-                    fanState = true;
-                    fanStr = "po";
-                    mThreadConnectedBluetooth.write(coverStr+fanStr+"e");
-                    mBtnFanOn.setText("On..");
-                    mBtnFanOff.setText("");
-                }
-            }
-        });
-
-        mBtnFanOff.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(mThreadConnectedBluetooth != null) {
-                    if(coverState == false) {
-                        coverStr = "pc";
-                    } else {
-                        coverStr = "po";
-                    }
-                    fanState = false;
-                    fanStr = "pc";
-                    mThreadConnectedBluetooth.write(coverStr+fanStr+"e");
-                    mBtnFanOn.setText("");
-                    mBtnFanOff.setText("Off..");
-                }
-            }
-        });
-
-        mBtnManual.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(mThreadConnectedBluetooth != null) {
-                    fanState = false;
-                    coverState = false;
-                    mThreadConnectedBluetooth.write("popoe");
-                    mBtnFanOff.setText("Off");
-                    mBtnFanOn.setText("On");
-                    mBtnCoverOff.setText("Off");
-                    mBtnCoverOn.setText("On");
-                    mBtnManual.setText("On");
-                    mBtnAutomatic.setText("");
-                }
-            }
-        });
-
-        mBtnAutomatic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(mThreadConnectedBluetooth != null) {
-                    mThreadConnectedBluetooth.write("aaaae");
-                    mBtnFanOff.setText("");
-                    mBtnFanOn.setText("");
-                    mBtnCoverOff.setText("");
-                    mBtnCoverOn.setText("");
-                    mBtnManual.setText("");
-                    mBtnAutomatic.setText("Off");
-                }
-            }
-        });
-
-
         mBluetoothHandler = new Handler(){
             public void handleMessage(android.os.Message msg){
                 if(msg.what == BT_MESSAGE_READ){
@@ -272,24 +100,7 @@ public class  MainActivity extends AppCompatActivity {
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
-                    // ","로 분할.
                     mTvReceiveData.setText(readMessage);
-//                    System.out.println("msg's type: " + readMessage.getClass().getName());
-                    System.out.println("readMessage: " + readMessage);
-                    String[] array = readMessage.split(",");
-//                    System.out.println("temperature: " + array[0]);
-//                    System.out.println("dust: " + array[1]);
-//                    System.out.println("uv: " + array[2]);
-                    temp.setText(array[0].concat("°C"));
-                    dust.setText(array[1].concat("㎛"));
-                    uv.setText(array[2].concat("μω"));
-
-                    String bowlMovementState = array[3];
-                    if(bowlMovementState == "o") {
-                        mTvBowlMovement.setText("기저귀 확인이 필요해요!");
-                    } else {
-                        mTvBowlMovement.setText("아직 안쌌어요.");
-                    }
                 }
             }
         };
@@ -404,6 +215,7 @@ public class  MainActivity extends AppCompatActivity {
             } catch (IOException e) {
                 Toast.makeText(getApplicationContext(), "소켓 연결 중 오류가 발생했습니다.", Toast.LENGTH_LONG).show();
             }
+
             mmInStream = tmpIn;
             mmOutStream = tmpOut;
         }
@@ -419,10 +231,6 @@ public class  MainActivity extends AppCompatActivity {
                         SystemClock.sleep(100);
                         bytes = mmInStream.available();
                         bytes = mmInStream.read(buffer, 0, bytes);
-//                        for(int i = 0; i < bytes; i++) {
-//                            System.out.println("buffer[" + i + "]: " + buffer[i]);
-//                        }
-                        System.out.println(" type: " + buffer.getClass().getName());
                         mBluetoothHandler.obtainMessage(BT_MESSAGE_READ, bytes, -1, buffer).sendToTarget();
                     }
                 } catch (IOException e) {
@@ -430,7 +238,6 @@ public class  MainActivity extends AppCompatActivity {
                 }
             }
         }
-
         public void write(String str) {
             byte[] bytes = str.getBytes();
             try {

@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="fill_parent"
     android:layout_width="fill_parent" >
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background"
@@ -27,7 +25,7 @@
 
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/imgNubida"
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:gravity="center_horizontal"
@@ -43,36 +41,56 @@
 
         <!--실시간 상태 영역-->
 
-        <!--    android:background="@drawable/button1" 계속 보라색으로 나타남.-->
         <Button
-            android:id="@+id/btn1"
-            android:layout_width="379dp"
+            android:id="@+id/btnBabyCry"
+            android:layout_width="150dp"
             android:layout_height="95dp"
             android:layout_marginTop="10dp"
             android:backgroundTintMode="screen"
             android:drawableBottom="@drawable/baby"
-            android:background=""
             android:outlineAmbientShadowColor="@color/white"
             android:text="울음소리 측정하기"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="13sp"
+            app:backgroundTint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.928"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView"
-            app:layout_constraintVertical_bias="0.001" />
+            app:layout_constraintVertical_bias="0.0" />
+
+        <Button
+            android:id="@+id/btnBluetooth"
+            android:layout_width="150dp"
+            android:layout_height="95dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTintMode="screen"
+            android:drawableBottom="@drawable/bluetooth"
+            android:outlineAmbientShadowColor="@color/white"
+            android:text="Google Map"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            android:textStyle=""
+            app:backgroundTint="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.082"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:layout_constraintVertical_bias="0.0" />
 
         <View
             android:id="@+id/view"
-            android:layout_width="430dp"
-            android:layout_height="270dp"
-            android:layout_marginTop="165dp"
+            android:layout_width="332dp"
+            android:layout_height="224dp"
+            android:layout_marginTop="120dp"
             android:background="@drawable/button1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.523"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imageView2"
+            app:layout_constraintTop_toTopOf="@+id/imgNubida"
             app:layout_constraintVertical_bias="0.167"></View>
 
 
@@ -105,22 +123,35 @@
             app:layout_constraintVertical_bias="0.192" />
 
 
-
         <!--    add new: 온도 / 먼지 / 자외선 매칭 시작-->
+
+        <TextView
+            android:id="@+id/tvBowelMovement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="기저귀를 확인하는 중입니다.."
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.474"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/view"
+            app:layout_constraintVertical_bias="0.207" />
+
         <RelativeLayout
-            android:layout_width="130dp"
-            android:layout_height="130dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             app:layout_constraintBottom_toBottomOf="@+id/view"
             app:layout_constraintEnd_toEndOf="@+id/view"
-            app:layout_constraintHorizontal_bias="0.033"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/view"
             app:layout_constraintTop_toTopOf="@+id/view"
             app:layout_constraintVertical_bias="0.678"
             tools:ignore="MissingConstraints">
             <ImageView
                 android:id="@+id/tempSensor"
-                android:layout_width="130dp"
-                android:layout_height="130dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
                 android:src="@drawable/sensor">
             </ImageView>
             <TextView
@@ -138,11 +169,11 @@
 
         <RelativeLayout
             android:id="@+id/relativeLayout"
-            android:layout_width="130dp"
-            android:layout_height="130dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             app:layout_constraintBottom_toBottomOf="@+id/view"
             app:layout_constraintEnd_toEndOf="@+id/view"
-            app:layout_constraintHorizontal_bias="0.493"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@+id/view"
             app:layout_constraintTop_toTopOf="@+id/view"
             app:layout_constraintVertical_bias="0.678"
@@ -150,8 +181,8 @@
 
             <ImageView
                 android:id="@+id/dustSensor"
-                android:layout_width="130dp"
-                android:layout_height="130dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
                 android:src="@drawable/sensor"></ImageView>
 
             <TextView
@@ -168,19 +199,19 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_width="130dp"
-            android:layout_height="130dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             app:layout_constraintBottom_toBottomOf="@+id/view"
             app:layout_constraintEnd_toEndOf="@+id/view"
-            app:layout_constraintHorizontal_bias="0.956"
+            app:layout_constraintHorizontal_bias="1"
             app:layout_constraintStart_toStartOf="@+id/view"
             app:layout_constraintTop_toTopOf="@+id/view"
             app:layout_constraintVertical_bias="0.678"
             tools:ignore="MissingConstraints">
             <ImageView
                 android:id="@+id/uvSensor"
-                android:layout_width="130dp"
-                android:layout_height="130dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
                 android:src="@drawable/sensor">
             </ImageView>
             <TextView
@@ -201,7 +232,7 @@
 
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/textTemp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="온도"
@@ -214,7 +245,7 @@
 
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/textDust"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="먼지"
@@ -225,27 +256,233 @@
             app:layout_constraintTop_toTopOf="@+id/view"
             app:layout_constraintVertical_bias="0.892" />
 
+        <!--    change mode [automatic/manual]  -->
+
+        <!--유모차 아이콘-->
+
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/textUv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="자외선"
             app:layout_constraintBottom_toBottomOf="@+id/view"
             app:layout_constraintEnd_toEndOf="@+id/view"
-            app:layout_constraintHorizontal_bias="0.851"
+            app:layout_constraintHorizontal_bias="0.865"
             app:layout_constraintStart_toStartOf="@+id/view"
             app:layout_constraintTop_toTopOf="@+id/view"
-            app:layout_constraintVertical_bias="0.896" />
+            app:layout_constraintVertical_bias="0.897" />
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="332dp"
+            android:layout_height="224dp"
+            android:layout_marginTop="270dp"
+            android:background="@drawable/button1"
+            app:layout_constraintBottom_toBottomOf="@id/view"
+            app:layout_constraintEnd_toEndOf="@id/view"
+            app:layout_constraintHorizontal_bias="0.529"
+            app:layout_constraintStart_toStartOf="@id/view"
+            app:layout_constraintTop_toTopOf="@+id/view"
+            app:layout_constraintVertical_bias="0.087"></View>
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="유모차 기능 제어"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/view2"
+            app:layout_constraintEnd_toEndOf="@+id/view2"
+            app:layout_constraintHorizontal_bias="0.072"
+            app:layout_constraintStart_toStartOf="@+id/view2"
+            app:layout_constraintTop_toTopOf="@+id/view2"
+            app:layout_constraintVertical_bias="0.069" />
+
+
+        <!-- 유모차 이미지-->
+
+        <!--버튼 간격 선-->
+
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/icon1"
+            app:layout_constraintBottom_toBottomOf="@+id/view2"
+            app:layout_constraintEnd_toEndOf="@+id/view2"
+            app:layout_constraintHorizontal_bias="0.416"
+            app:layout_constraintStart_toStartOf="@+id/view2"
+            app:layout_constraintTop_toTopOf="@+id/view2"
+            app:layout_constraintVertical_bias="0.069"></ImageView>
+
+        <View
+            android:id="@+id/view3"
+            android:layout_width="320dp"
+            android:layout_height="2px"
+            android:background="#939393"
+            android:padding="500dp"
+            app:layout_constraintBottom_toBottomOf="@+id/view2"
+            app:layout_constraintEnd_toEndOf="@+id/view2"
+            app:layout_constraintHorizontal_bias="0.448"
+            app:layout_constraintStart_toStartOf="@+id/view2"
+            app:layout_constraintTop_toTopOf="@+id/view2"
+            app:layout_constraintVertical_bias="0.392"></View>
+
+        <View
+            android:id="@+id/view4"
+            android:layout_width="320dp"
+            android:layout_height="2px"
+            android:background="#939393"
+            android:padding="500dp"
+            app:layout_constraintBottom_toBottomOf="@+id/view2"
+            app:layout_constraintEnd_toEndOf="@+id/view2"
+            app:layout_constraintHorizontal_bias="0.448"
+            app:layout_constraintStart_toStartOf="@+id/view2"
+            app:layout_constraintTop_toTopOf="@+id/view2"
+            app:layout_constraintVertical_bias="0.696"></View>
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="수동 모드"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/view2"
+            app:layout_constraintEnd_toEndOf="@+id/view2"
+            app:layout_constraintHorizontal_bias="0.095"
+            app:layout_constraintStart_toStartOf="@+id/view2"
+            app:layout_constraintTop_toTopOf="@+id/view2"
+            app:layout_constraintVertical_bias="0.232" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="가림막"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/view2"
+            app:layout_constraintEnd_toEndOf="@+id/view2"
+            app:layout_constraintHorizontal_bias="0.088"
+            app:layout_constraintStart_toStartOf="@+id/view2"
+            app:layout_constraintTop_toTopOf="@+id/view2"
+            app:layout_constraintVertical_bias="0.53" />
+
+        <!--유모차 기능 제어 버튼-->
+
+<!--        수동/자동 모드 버튼 -->
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="선풍기"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/view2"
+            app:layout_constraintEnd_toEndOf="@+id/view2"
+            app:layout_constraintHorizontal_bias="0.089"
+            app:layout_constraintStart_toStartOf="@+id/view2"
+            app:layout_constraintTop_toTopOf="@+id/view2"
+            app:layout_constraintVertical_bias="0.853" />
+
+        <Button
+            android:id="@+id/btnManual"
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+            app:backgroundTint="@color/gray"
+            android:text="ON"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@+id/view2"
+            app:layout_constraintEnd_toEndOf="@+id/view2"
+            app:layout_constraintHorizontal_bias="0.705"
+            app:layout_constraintStart_toStartOf="@+id/view2"
+            app:layout_constraintTop_toTopOf="@+id/view2"
+            app:layout_constraintVertical_bias="0.232" />
+        <Button
+            android:id="@+id/btnAutomatic"
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+            app:backgroundTint="@color/gray"
+            android:text="OFF"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@+id/view2"
+            app:layout_constraintEnd_toEndOf="@+id/view2"
+            app:layout_constraintHorizontal_bias="0.97"
+            app:layout_constraintStart_toStartOf="@+id/view2"
+            app:layout_constraintTop_toTopOf="@+id/view2"
+            app:layout_constraintVertical_bias="0.232" />
+
+<!--        가림막 버튼-->
+
+        <Button
+            android:id="@+id/btnCoverOn"
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+            app:backgroundTint="@color/gray"
+            android:text="OPEN"
+            android:textSize="9sp"
+            app:layout_constraintBottom_toBottomOf="@+id/view2"
+            app:layout_constraintEnd_toEndOf="@+id/view2"
+            app:layout_constraintHorizontal_bias="0.705"
+            app:layout_constraintStart_toStartOf="@+id/view2"
+            app:layout_constraintTop_toTopOf="@+id/view2"
+            app:layout_constraintVertical_bias="0.53" />
+
+        <Button
+            android:id="@+id/btnCoverOff"
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+            app:backgroundTint="@color/gray"
+            android:text="CLOSE"
+            android:textSize="8sp"
+            app:layout_constraintBottom_toBottomOf="@+id/view2"
+            app:layout_constraintEnd_toEndOf="@+id/view2"
+            app:layout_constraintHorizontal_bias="0.97"
+            app:layout_constraintStart_toStartOf="@+id/view2"
+            app:layout_constraintTop_toTopOf="@+id/view2"
+            app:layout_constraintVertical_bias="0.53" />
+
+<!--        선풍기 버튼-->
+        <Button
+            android:id="@+id/btnFanOn"
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+            app:backgroundTint="@color/gray"
+            android:text="ON"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@+id/view2"
+            app:layout_constraintEnd_toEndOf="@+id/view2"
+            app:layout_constraintHorizontal_bias="0.705"
+            app:layout_constraintStart_toStartOf="@+id/view2"
+            app:layout_constraintTop_toTopOf="@+id/view2"
+            app:layout_constraintVertical_bias="0.871" />
+
+        <Button
+            android:id="@+id/btnFanOff"
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+            app:backgroundTint="@color/gray"
+            android:text="OFF"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@+id/view2"
+            app:layout_constraintEnd_toEndOf="@+id/view2"
+            app:layout_constraintHorizontal_bias="0.97"
+            app:layout_constraintStart_toStartOf="@+id/view2"
+            app:layout_constraintTop_toTopOf="@+id/view2"
+            app:layout_constraintVertical_bias="0.871" />
+        <!--    change end [automatic/manual]  -->
+
+
 
         <!--    블루투스 기능 시작-->
-
         <Button
             android:id="@+id/btnBluetoothOn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:backgroundTint="@color/sky_blue"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="468dp"
+            android:layout_marginTop="700dp"
             android:text="블루투스 ON"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -253,17 +490,19 @@
             android:id="@+id/btnBluetoothOff"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="12dp"
+            app:backgroundTint="@color/sky_blue"
+            android:layout_marginStart="150dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="700dp"
             android:text="블루투스 OFF"
-            app:layout_constraintStart_toEndOf="@+id/btnBluetoothOn"
-            app:layout_constraintTop_toTopOf="@+id/btnBluetoothOn" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/btnSendData"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:backgroundTint="@color/sky_blue"
             android:layout_marginTop="16dp"
             android:text="전송"
             app:layout_constraintStart_toStartOf="@+id/btnConnect"
@@ -296,6 +535,7 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
+            app:backgroundTint="@color/sky_blue"
             android:text="연결하기"
             app:layout_constraintStart_toStartOf="@+id/tvBluetoothStatus"
             app:layout_constraintTop_toBottomOf="@+id/tvBluetoothStatus" />
@@ -304,8 +544,9 @@
             android:id="@+id/tvReceiveData"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="12dp"
             android:text="Receive"
+            android:textSize="15sp"
             app:layout_constraintStart_toStartOf="@+id/btnSendData"
             app:layout_constraintTop_toBottomOf="@+id/btnSendData" />
 

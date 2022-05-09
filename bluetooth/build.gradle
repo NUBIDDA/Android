@@ -16,7 +16,13 @@ allprojects {
     repositories {
         google()
         jcenter()
+        // Naver Map Api
+        maven {
+            url 'https://navercorp.bintray.com/maps'
+        }
     }
+
+
 }
 
 task clean(type: Delete) {
