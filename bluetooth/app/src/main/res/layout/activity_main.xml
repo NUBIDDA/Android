@@ -43,9 +43,9 @@
 
         <Button
             android:id="@+id/btnBabyCry"
-            android:layout_width="150dp"
-            android:layout_height="95dp"
-            android:layout_marginTop="10dp"
+            android:layout_width="143dp"
+            android:layout_height="75dp"
+            android:layout_marginTop="15dp"
             android:backgroundTintMode="screen"
             android:drawableBottom="@drawable/baby"
             android:outlineAmbientShadowColor="@color/white"
@@ -55,16 +55,16 @@
             app:backgroundTint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.875"
+            app:layout_constraintHorizontal_bias="0.869"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView"
             app:layout_constraintVertical_bias="0.0" />
 
         <Button
             android:id="@+id/btnNaverMap"
-            android:layout_width="150dp"
-            android:layout_height="95dp"
-            android:layout_marginTop="10dp"
+            android:layout_width="143dp"
+            android:layout_height="75dp"
+            android:layout_marginTop="15dp"
             android:backgroundTintMode="screen"
             android:drawableBottom="@drawable/navermap_logo"
             android:outlineAmbientShadowColor="@color/white"
@@ -498,16 +498,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/btnSendData"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:backgroundTint="@color/sky_blue"
-            android:layout_marginTop="16dp"
-            android:text="전송"
-            app:layout_constraintStart_toStartOf="@+id/btnConnect"
-            app:layout_constraintTop_toBottomOf="@+id/btnConnect" />
-
         <TextView
             android:id="@+id/tvBluetoothStatus"
             android:layout_width="170dp"
@@ -516,19 +506,6 @@
             android:text="status"
             app:layout_constraintStart_toStartOf="@+id/btnBluetoothOn"
             app:layout_constraintTop_toBottomOf="@+id/btnBluetoothOn" />
-
-        <EditText
-            android:id="@+id/tvSendData"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Send Data"
-            app:layout_constraintStart_toEndOf="@+id/btnSendData"
-            app:layout_constraintTop_toTopOf="@+id/btnSendData" />
 
         <Button
             android:id="@+id/btnConnect"
@@ -540,17 +517,15 @@
             app:layout_constraintStart_toStartOf="@+id/tvBluetoothStatus"
             app:layout_constraintTop_toBottomOf="@+id/tvBluetoothStatus" />
 
-        <TextView
-            android:id="@+id/tvReceiveData"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="Receive"
-            android:textSize="15sp"
-            app:layout_constraintStart_toStartOf="@+id/btnSendData"
-            app:layout_constraintTop_toBottomOf="@+id/btnSendData" />
-
-
-
+<!--        <TextView-->
+<!--            android:id="@+id/tvReceiveData"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Receive"-->
+<!--            android:textSize="15sp"-->
+<!--            tools:layout_editor_absoluteX="16dp"-->
+<!--            tools:layout_editor_absoluteY="840dp"-->
+<!--            tools:ignore="MissingConstraints" />-->
+<!--        -->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -94,12 +94,10 @@ public class  MainActivity extends AppCompatActivity {
 //        });
 
         mTvBluetoothStatus = (TextView)findViewById(R.id.tvBluetoothStatus);
-        mTvReceiveData = (TextView)findViewById(R.id.tvReceiveData);
-        mTvSendData =  (EditText) findViewById(R.id.tvSendData);
+//        mTvReceiveData = (TextView)findViewById(R.id.tvReceiveData);
         mBtnBluetoothOn = (Button)findViewById(R.id.btnBluetoothOn);
         mBtnBluetoothOff = (Button)findViewById(R.id.btnBluetoothOff);
         mBtnConnect = (Button)findViewById(R.id.btnConnect);
-        mBtnSendData = (Button)findViewById(R.id.btnSendData);
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
@@ -139,15 +137,15 @@ public class  MainActivity extends AppCompatActivity {
             }
         });
 
-        mBtnSendData.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(mThreadConnectedBluetooth != null) {
-                    mThreadConnectedBluetooth.write(mTvSendData.getText().toString());
-                    mTvSendData.setText("");
-                }
-            }
-        });
+//        mBtnSendData.setOnClickListener(new Button.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(mThreadConnectedBluetooth != null) {
+//                    mThreadConnectedBluetooth.write(mTvSendData.getText().toString());
+//                    mTvSendData.setText("");
+//                }
+//            }
+//        });
 
 
         mBtnBabyCry.setOnClickListener(new View.OnClickListener() {
@@ -284,7 +282,7 @@ public class  MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     // ","로 분할.
-                    mTvReceiveData.setText(readMessage);
+//                    mTvReceiveData.setText(readMessage);
 //                    System.out.println("msg's type: " + readMessage.getClass().getName());
                     System.out.println("readMessage: " + readMessage);
                     String[] array = readMessage.split(",");
@@ -419,8 +417,6 @@ public class  MainActivity extends AppCompatActivity {
             mmOutStream = tmpOut;
         }
         public void run() {
-//            byte[] buffer = new byte[1024];
-//            int bytes;
             while (true) {
                 byte[] buffer = new byte[1024];
                 int bytes;
@@ -430,9 +426,6 @@ public class  MainActivity extends AppCompatActivity {
                         SystemClock.sleep(100);
                         bytes = mmInStream.available();
                         bytes = mmInStream.read(buffer, 0, bytes);
-//                        for(int i = 0; i < bytes; i++) {
-//                            System.out.println("buffer[" + i + "]: " + buffer[i]);
-//                        }
                         System.out.println(" type: " + buffer.getClass().getName());
                         mBluetoothHandler.obtainMessage(BT_MESSAGE_READ, bytes, -1, buffer).sendToTarget();
                     }
