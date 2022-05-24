@@ -7,11 +7,13 @@ import android.util.Xml;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.UiThread;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.common.util.JsonUtils;
 import com.naver.maps.geometry.LatLng;
+import com.naver.maps.map.CameraPosition;
 import com.naver.maps.map.LocationTrackingMode;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.MapView;
@@ -31,6 +33,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class NaverMapActivity extends AppCompatActivity implements OnMapReadyCallback  {
     private MapView mapView;
@@ -49,6 +52,20 @@ public class NaverMapActivity extends AppCompatActivity implements OnMapReadyCal
 
         mapView.getMapAsync(this);
         locationSource = new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
+
+        ToiletApiData toiletApiData = new ToiletApiData();
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                toiletData = toiletApiData.getData();
+            }
+        };
+        try {
+            t.start();
+            t.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void onRequestPermissionResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -62,44 +79,63 @@ public class NaverMapActivity extends AppCompatActivity implements OnMapReadyCal
     }
 
     // 현재 자신의 위치 띄우기
+    @UiThread
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
         this.naverMap = naverMap;
         naverMap.setLocationSource(locationSource);
         naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
 
-
+        // 지도가 움직일 때 이벤트 발생
+        naverMap.addOnCameraChangeListener(new NaverMap.OnCameraChangeListener() {
+            @Override
+            public void onCameraChange(int i, boolean b)  {
+                removeMarkers();
+                LatLng currentLocation = getCurrentLocation(naverMap);
+                // 카메라의 위치가 바뀌면 for 문을 10000번 돌아야함. DP와 같은 알고리즘 적용하면 성능 향상 가능
+                for(ToiletData data : toiletData) {
+                    if(!checkOutOfRange(currentLocation, new LatLng(data.getLatitude(), data.getLongitude()))) {
+                        continue;
+                    }
+                    Marker marker = new Marker();
+                    marker.setPosition(new LatLng(data.getLatitude(), data.getLongitude()));
+                    marker.setMap(naverMap);
+                    marker.setCaptionText(data.getName());
+                    activeMarkers.add(marker);
+                }
+            }
+        });
         // 정적 데이터 추가
-        showMarkers();
+//        showMarkers();
     }
 
-    // 화장실 데이터 가져오기
-    // 2022-05-17 03:37 현재 공공데이터 포털 사이트 오류. 일단 동적으로 화장실 위치 설정
-    public void showMarkers() {
-        ToiletApiData toiletApiData = new ToiletApiData();
-        ArrayList<ToiletData> toiletDataArrayList = toiletApiData.getData();
-        for (ToiletData t : toiletDataArrayList) {
-            Marker marker = new Marker();
-            marker.setWidth(50);
-            marker.setHeight(50);
-            marker.setPosition(new LatLng(t.getLatitude(), t.getLongitude()));
-            marker.setZIndex(0);
-            marker.setIcon(OverlayImage.fromResource(R.drawable.navermap_default_marker_icon_red));
-            marker.setCaptionText(t.getName());
-            marker.setMap(naverMap);
+    private Vector<ToiletData> toiletData;
+    private Vector<Marker> activeMarkers;
+
+
+    // 현재 보고있는 위치의 인근 5키로 미터의 화장실만 표시
+    public final static double REFERENCE_LAT_X3 = 5 / 109.958489129649955;
+    public final static double REFERENCE_LNG_X3 = 5 / 88.74;
+    public boolean checkOutOfRange(LatLng currentLocation, LatLng markerLocation) {
+        boolean outOfRangeLat = Math.abs(currentLocation.latitude - markerLocation.latitude) <= REFERENCE_LAT_X3;
+        boolean outOfRangeLng = Math.abs(currentLocation.longitude - markerLocation.longitude) <= REFERENCE_LNG_X3;
+        return outOfRangeLat && outOfRangeLng;
+    }
+
+    private void removeMarkers() {
+        if(activeMarkers == null) {
+            activeMarkers = new Vector<Marker>();
+            return;
         }
-//        MarkersData markersData = new MarkersData();
-//        ArrayList<Markers> dataArr = markersData.getData();
-//        for(Markers data : dataArr) {
-//            Marker marker = new Marker();
-//            marker.setWidth(50);
-//            marker.setHeight(50);
-//            marker.setPosition(new LatLng(data.getLatitude(), data.getLongitude()));
-//            marker.setZIndex(0);
-//            marker.setIcon(OverlayImage.fromResource(R.drawable.navermap_default_marker_icon_red));
-//            marker.setCaptionText(data.getName());
-//            marker.setMap(naverMap);
-//        }
+        for (Marker marker : activeMarkers) {
+            marker.setMap(null);
+        }
+        activeMarkers = new Vector<Marker>();
+    }
+
+    public LatLng getCurrentLocation(NaverMap naverMap) {
+        CameraPosition cameraPosition = naverMap.getCameraPosition();
+        return new LatLng(cameraPosition.target.latitude, cameraPosition.target.longitude);
     }
 }
 
@@ -149,17 +185,15 @@ class ToiletData {
 
 class ToiletApiData {
     String apiUrl = "http://api.data.go.kr/openapi/tn_pubr_public_toilet_api";
-//    StringBuilder apiUrl = new StringBuilder("http://openapi.gimje.go.kr/rest/toilet");
     String apiKey = "q3dZVPW3y72QlLMB6T1ivx%2FPx%2BYy68xXFSEAKO0Bso%2BpJiz8nj0ftXQ9TGzGNHKtIZyjdXkpmGgHV3wc121Tqw%3D%3D";  // Encoding
-//    String apiKey = q3dZVPW3y72QlLMB6T1ivx/Px+Yy68xXFSEAKO0Bso+pJiz8nj0ftXQ9TGzGNHKtIZyjdXkpmGgHV3wc121Tqw==;  // Decoding
 
-    public ArrayList<ToiletData> getData() {
-        ArrayList<ToiletData> dataArr = new ArrayList<ToiletData>();
+    public Vector<ToiletData> getData() {
+        Vector<ToiletData> dataArr = new Vector<ToiletData>();
         Thread thread = new Thread() {
             @Override
             public void run() {
                 try {
-                    String fullUrl = apiUrl + "?ServiceKey=" + apiKey + "&pageNo=1&numOfRows=10000&type=xml";  // 10000개 띄우는데, 속도 매우 느려짐.
+                    String fullUrl = apiUrl + "?ServiceKey=" + apiKey + "&numOfRows=10000&type=xml";  // 화장실 데이터 10000개 저장
                     System.out.println("fullUrl = " + fullUrl);
                     URL url = new URL(fullUrl);
                     InputStream is = url.openStream();
@@ -176,7 +210,6 @@ class ToiletApiData {
                     String longitude = "";
 
                     while(parser.getEventType() != XmlPullParser.END_DOCUMENT) {
-
                         int type = parser.getEventType();
                         ToiletData data = new ToiletData();
                         if(type == XmlPullParser.START_DOCUMENT) {
@@ -186,38 +219,25 @@ class ToiletApiData {
                             String cur_tag = parser.getName();
                             switch (cur_tag) {
                                 case "toiletNm":
-                                    nameState = true; break;
+                                    nameState = true;
+                                    break;
                                 case "latitude":
-                                    latState = true; break;
+                                    latState = true;
+                                    break;
                                 case "longitude":
-                                    longState = true; break;
+                                    longState = true;
+                                    break;
                                 default: break;
                             }
-//                            if(parser.getName() == "item") {
-//                                System.out.println("#####start tag: ITEM!!!########");
-//                                if(parser.getName() == "toiletNm") {
-//                                    System.out.println("@@@@@@@@TOILET NUM@@@@@@@@@");
-//                                    nameState = true;
-//                                } else if(parser.getName().equals("latitude")) {
-//                                    System.out.println("LATITITUTEU!!!!!!!!!!!!!!");
-//                                    latState = true;
-//                                } else if(parser.getName().equals("longitude")) {
-//                                    System.out.println("LONGTITUTE!!!!!!!!!!!!");
-//                                    longState = true;
-//                                }
-//                            }
                         } else if(type == XmlPullParser.TEXT) {
                             if(nameState) {
                                 name = parser.getText();
-                                System.out.println("name = " + name);
                                 nameState = false;
                             } else if(latState) {
                                 latitude = parser.getText();
-                                System.out.println("latitude = " + latitude);
                                 latState = false;
                             } else if(longState)  {
                                 longitude = parser.getText();
-                                System.out.println("longitude = " + longitude);
                                 longState = false;
                             }
                         }
@@ -228,7 +248,7 @@ class ToiletApiData {
                                 data.setLongitude(Double.valueOf(longitude));
                                 dataArr.add(data);
                             } catch (NumberFormatException e) {
-                                System.out.println("error cause");
+                                e.printStackTrace();
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -253,62 +273,3 @@ class ToiletApiData {
         return dataArr;
     }
 }
-
-
-//
-//class MarkersData {
-//    String[] nameArr = new String[] {
-//            "미디어랩스관", "의료과학관", "신한은행 순천향대", "산학협력관", "공학관", "유니토피아관", "향설도서관", "인문사회과학관", "우체국 순천향대", "멀티미디어관", "순청향대 본관", "신창휴게소", "S-OIL", "오일뱅크", "신창역", "자연과학관", "앙뜨레프레너관", "향설3생활관", "향설2생활관", "글로벌빌리지", "학예관", "지역혁신관", "신창119 안전센터", "체육관", "학성사 1,2관", "생활관 3관"
-//    };
-//
-//    Double[] latArr = new Double[] {
-//            36.77194401287416, 36.771097195642305, 36.770800394683654, 36.76997596563322, 36.76928145029192, 36.76917853057986, 36.768739986608594, 36.768386466552954, 36.768668761005046, 36.76915688220257, 36.76840550384599, 36.7689894066761, 36.77416575619874, 36.77764583534626, 36.76948881773688, 36.76960909240391, 36.76882748782919, 36.76809794715735, 36.76817844715358, 36.76730445085661, 36.76970168266969, 36.77056666806766, 36.77118913529503, 36.77060048851375, 36.77228294629353, 36.77144976544267
-//    };
-//
-//    Double[] longArr = new Double[] {
-//            126.93174039112881, 126.93214717780299, 126.93314992431995, 126.93331585228043, 126.93215717830218, 126.93341174889667, 126.93077997541373, 126.92728570656408, 126.93228092511046, 126.93485681942323, 126.92896577871369, 126.92597465701579, 126.93260093224056, 126.93580164193797, 126.9506830513866, 126.92997273830555, 126.93411769418793, 126.93477915115766, 126.9336926278629, 126.93385018656058, 126.93431856048542, 126.93416100986067, 126.93543179182905, 126.93025746018971, 126.93353227708523, 126.93416585529629
-//    };
-//
-//    public ArrayList<Markers> getData() {
-//        ArrayList<Markers> dataArr = new ArrayList<Markers>();
-//        for(int i = 0; i < nameArr.length; i++) {
-//            Markers marker = new Markers();
-//            marker.setName(nameArr[i]);
-//            marker.setLatitude(latArr[i]);
-//            marker.setLongitude(longArr[i]);
-//            dataArr.add(marker);
-//        }
-//        return dataArr;
-//    }
-//}
-//
-//class Markers {
-//    // Marker 의 이름/경도/위도만 임의로 설정후 ArrayList 에 추가
-//    Double latitude;
-//    Double longitude;
-//    String name;
-//
-//    public void setName(String name) {
-//        this.name = name;
-//    }
-//
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public void setLatitude(Double latitude) {
-//        this.latitude = latitude;
-//    }
-//
-//    public Double getLatitude() {
-//        return latitude;
-//    }
-//
-//    public void setLongitude(Double longitude) {
-//        this.longitude = longitude;
-//    }
-//
-//    public Double getLongitude() {
-//        return longitude;
-//    }
-//}
